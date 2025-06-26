@@ -23,6 +23,13 @@ cap = None
 hand_sign_letter = None
 ai_ready = False
 
+class Person:
+    def __init__(self, sign):
+        self.sign = sign
+
+playerA = Person(sign="unknow")
+playerB = Person(sign="unknow")
+
 def get_args():
     parser = argparse.ArgumentParser()
 
@@ -51,6 +58,8 @@ def main():
     global cap
     global hand_sign_letter
     global ai_ready
+    global playerA
+    global playerB
 
     args = get_args()
 
@@ -110,6 +119,8 @@ def main():
     #  ########################################################################
     mode = 0
     ai_ready = True
+
+
 
     while True:
         fps = cvFpsCalc.get()
@@ -175,8 +186,10 @@ def main():
 
                 if cx < image_width // 2:
                     person_id = "Player A"
+                    playerA.sign = hand_sign_letter
                 else:
                     person_id = "Player B"
+                    playerB.sign = hand_sign_letter
 
                 print(f"{person_id} - Signe: {hand_sign_letter}")
 
@@ -616,9 +629,11 @@ def video_feed():
 @app.route('/sign', methods=['GET'])
 def sign():
     global process
-    global hand_sign_letter
+    global playerA
+    global playerB
     if process is not None and process.is_alive():
-        return jsonify({"hand_sign": hand_sign_letter}), 200
+        return jsonify({"hand_sign_player1": playerA.sign,
+                        "hand_sign_player2": playerB.sign}), 200
     else:
         return jsonify({"status": "main() pas lancée"}), 400
 
