@@ -166,7 +166,16 @@ def main():
                     finger_gesture_history).most_common()
 
                 hand_sign_letter = keypoint_classifier_labels[hand_sign_id]
-                send_hand_sign_letter()
+
+                image_width = debug_image.shape[1]
+                cx = int(hand_landmarks.landmark[0].x * image_width)
+
+                if cx < image_width // 2:
+                    person_id = "Player A"
+                else:
+                    person_id = "Player B"
+
+                print(f"{person_id} - Signe: {hand_sign_letter}")
 
                 # Drawing part
                 debug_image = draw_bounding_rect(use_brect, debug_image, brect)
