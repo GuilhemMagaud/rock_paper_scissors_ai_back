@@ -21,6 +21,7 @@ from threading import Thread
 
 cap = None
 hand_sign_letter = None
+ai_ready = False
 
 def get_args():
     parser = argparse.ArgumentParser()
@@ -49,6 +50,7 @@ def main():
     # Argument parsing #################################################################
     global cap
     global hand_sign_letter
+    global ai_ready
 
     args = get_args()
 
@@ -107,6 +109,7 @@ def main():
 
     #  ########################################################################
     mode = 0
+    ai_ready = True
 
     while True:
         fps = cvFpsCalc.get()
@@ -591,6 +594,10 @@ app = Flask(__name__)
 CORS(app)
 process = None
 
+@app.route('/status', methods=['GET'])
+def status():
+    return jsonify({"ready": ai_ready}  ), 200
+
 @app.route('/start', methods=['GET'])
 def start():
     global process
@@ -618,8 +625,10 @@ def sign():
 @app.route('/end', methods=['GET'])
 def end():
     global process
+    global ai_ready
     if process is not None and process.is_alive():
         arreter_camera()
+        ai_ready = False
         return jsonify({"status": "main() terminé"}), 200
     else:
         return jsonify({"status": "main() pas lancée"}), 400
