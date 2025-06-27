@@ -4,6 +4,7 @@ import csv
 import copy
 import argparse
 import itertools
+import os
 from collections import Counter
 from collections import deque
 
@@ -649,4 +650,4 @@ def end():
         return jsonify({"status": "main() pas lancée"}), 400
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
