@@ -1,5 +1,5 @@
 # Utiliser une image Python avec la version spécifiée
-ARG PYTHON_VERSION
+ARG PYTHON_VERSION=3.10.7
 FROM python:${PYTHON_VERSION}
 
 # Définir le dossier de travail
