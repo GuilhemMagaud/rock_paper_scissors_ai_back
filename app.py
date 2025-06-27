@@ -21,6 +21,7 @@ from flask_cors import CORS
 from threading import Thread
 
 cap = None
+hand_sign_id2 = None
 hand_sign_letter = None
 ai_ready = False
 
@@ -58,6 +59,7 @@ def main():
     # Argument parsing #################################################################
     global cap
     global hand_sign_letter
+    global hand_sign_id2
     global ai_ready
     global playerA
     global playerB
@@ -180,6 +182,7 @@ def main():
                 most_common_fg_id = Counter(
                     finger_gesture_history).most_common()
 
+                hand_sign_id2 = hand_sign_id
                 hand_sign_letter = keypoint_classifier_labels[hand_sign_id]
 
                 image_width = debug_image.shape[1]
@@ -251,6 +254,8 @@ def select_mode(key, mode):
         mode = 1
     if key == 104:  # h
         mode = 2
+    if key == 108:  # l
+        mode = 3
     return number, mode
 
 
@@ -339,6 +344,7 @@ def pre_process_point_history(image, point_history):
 
 
 def logging_csv(number, mode, landmark_list, point_history_list):
+    global hand_sign_id2
     if mode == 0:
         pass
     if mode == 1 and (0 <= number <= 9):
@@ -351,6 +357,11 @@ def logging_csv(number, mode, landmark_list, point_history_list):
         with open(csv_path, 'a', newline="") as f:
             writer = csv.writer(f)
             writer.writerow([number, *point_history_list])
+    if mode == 3 and (0 <= number <= 9):
+        csv_path = 'model/keypoint_classifier/perf.csv'
+        with open(csv_path, 'a', newline="") as f:
+            writer = csv.writer(f)
+            writer.writerow([number, hand_sign_id2])
     return
 
 
