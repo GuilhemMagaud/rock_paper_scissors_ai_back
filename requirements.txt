@@ -6,3 +6,5 @@ scikit-learn
 matplotlib
 flask
 flask-cors
+numpy
+dotenv
