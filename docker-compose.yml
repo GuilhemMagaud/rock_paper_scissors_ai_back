@@ -8,9 +8,8 @@ services:
         - PYTHON_VERSION=3.10.7
     volumes:
       - .:/app
-    devices:
-      - "/dev/video0:/dev/video0"  # Accès à la caméra
     environment:
       - DISPLAY=$DISPLAY
+      - MODE=api
     stdin_open: true
     tty: true

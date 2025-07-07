@@ -9,13 +9,7 @@ WORKDIR /app
 COPY . .
 
 # Installer les dépendances
-RUN pip install --upgrade pip
-RUN pip install mediapipe
-RUN pip install opencv-python
-RUN pip install tensorflow
-RUN pip install tf-nightly
-RUN pip install scikit-learn
-RUN pip install matplotlib
+RUN pip install -r requirements.txt
 
 # Exposer les ports (si besoin pour Flask, FastAPI, etc.)
 EXPOSE 5000
