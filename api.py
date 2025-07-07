@@ -52,8 +52,15 @@ def predict_signs_from_image(image_path):
     return {"hand_sign_player1": signs[0], "hand_sign_player2": signs[1]}
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "*"}})
+CORS(app, supports_credentials=True, origins=["http://localhost:3000"])
 
+@app.after_request
+def after_request(response):
+    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+    response.headers.add('Access-Control-Allow-Methods', 'GET,POST,OPTIONS')
+    response.headers.add('Access-Control-Allow-Origin', 'http://localhost:3000')
+    return response
+    
 from flask import request
 
 @app.route('/predict', methods=['POST'])
