@@ -65,6 +65,10 @@ from flask import request
 
 @app.route('/predict', methods=['POST'])
 def predict():
+    print("✅ Requête /predict reçue")
+    print("🔍 Headers:", dict(request.headers))
+    print("🔍 Content-Type:", request.content_type)
+    print("🔍 Nombre de fichiers dans request.files:", len(request.files.getlist("frames")))
     if 'frames' not in request.files:
         return jsonify({"error": "No frames provided"}), 400
 
@@ -79,7 +83,7 @@ def predict():
                 signs = predict_signs_from_image(temp_path)
                 results.append(signs)
             except Exception as e:
-                print(f"Error processing {file.filename}:", e)
+                print(f"🔥 Erreur dans predict(): {e}")
                 results.append({"hand_sign_player1": "error", "hand_sign_player2": "error"})
 
     return jsonify({"predictions": results}), 200

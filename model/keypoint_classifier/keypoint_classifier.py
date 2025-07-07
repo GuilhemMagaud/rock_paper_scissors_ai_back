@@ -5,6 +5,7 @@ import tensorflow as tf
 
 
 class KeyPointClassifier(object):
+    print("📦 Initialisation de KeyPointClassifier")
     def __init__(
         self,
         model_path='model/keypoint_classifier/keypoint_classifier.tflite',
