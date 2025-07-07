@@ -52,7 +52,7 @@ def predict_signs_from_image(image_path):
     return {"hand_sign_player1": signs[0], "hand_sign_player2": signs[1]}
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
 
 from flask import request
 
